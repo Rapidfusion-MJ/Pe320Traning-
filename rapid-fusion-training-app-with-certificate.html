@@ -1,0 +1,2738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapid Fusion PE320 Training</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #e6e6e6;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #222;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #a74e9e;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        .nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            padding: 10px;
+            background-color: #333;
+            border-radius: 8px;
+        }
+        
+        .nav-btn {
+            padding: 8px 15px;
+            background-color: #444;
+            border: none;
+            border-radius: 4px;
+            color: #ddd;
+            cursor: pointer;
+        }
+        
+        .nav-btn.active {
+            background-color: #a74e9e;
+            color: white;
+        }
+        
+        .nav-btn.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .section {
+            display: none;
+            padding: 20px;
+            background-color: #2a2a2a;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        .section-title {
+            color: #a74e9e;
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        /* Content and quiz separation */
+        .section-content {
+            margin-bottom: 30px;
+        }
+        
+        .quiz-container {
+            display: none;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .quiz-btn {
+            display: block;
+            margin: 30px 0;
+            padding: 10px 20px;
+            background-color: #a74e9e;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .quiz-question {
+            margin-bottom: 20px;
+        }
+        
+        .quiz-options {
+            margin-left: 20px;
+        }
+        
+        .option {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #444;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .option.selected {
+            background-color: #a74e9e;
+        }
+        
+        .option.correct {
+            background-color: #4caf50;
+        }
+        
+        .option.incorrect {
+            background-color: #f44336;
+        }
+        
+        .submit-btn, .next-btn {
+            padding: 10px 20px;
+            background-color: #a74e9e;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        .retake-btn {
+            padding: 10px 20px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            margin-left: 10px;
+        }
+        
+        .retake-btn:hover {
+            background-color: #d32f2f;
+        }
+        
+        .next-btn {
+            display: none;
+        }
+        
+        .feedback {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .feedback.success {
+            background-color: rgba(76, 175, 80, 0.3);
+            border: 1px solid #4caf50;
+        }
+        
+        .feedback.error {
+            background-color: rgba(244, 67, 54, 0.3);
+            border: 1px solid #f44336;
+        }
+        
+        .note {
+            background-color: rgba(255, 193, 7, 0.2);
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        /* For tables and lists */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            border: 1px solid #444;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #333;
+        }
+        
+        ul, ol {
+            margin-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .certificate {
+            display: none;
+            text-align: center;
+            margin-top: 30px;
+            padding: 30px;
+            border: 2px solid #a74e9e;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        
+        .important {
+            background-color: rgba(244, 67, 54, 0.2);
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        /* Certificate specific styling */
+        .certificate-content {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #fff;
+            border: 10px solid #a74e9e;
+            border-radius: 8px;
+            color: #333;
+            box-sizing: border-box;
+        }
+        
+        .certificate-title {
+            font-size: 28px;
+            color: #a74e9e;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .certificate-subtitle {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .certificate-text {
+            font-size: 14px;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+        
+        .certificate-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #a74e9e;
+            margin: 15px 0;
+            font-style: italic;
+            border-bottom: 2px solid #a74e9e;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+        
+        .certificate-results {
+            margin: 20px auto;
+            width: 80%;
+            border: 1px solid #ddd;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        
+        .certificate-results th, .certificate-results td {
+            padding: 6px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        
+        .certificate-results th {
+            background-color: #f2f2f2;
+        }
+        
+        .certificate-seal {
+            width: 80px;
+            height: 80px;
+            margin: 15px auto;
+            border: 2px solid #a74e9e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #a74e9e;
+            font-size: 16px;
+            transform: rotate(-15deg);
+        }
+        
+        .certificate-date {
+            margin-top: 20px;
+            font-style: italic;
+            font-size: 14px;
+        }
+        
+        .certificate-signature {
+            margin-top: 20px;
+            border-top: 2px solid #333;
+            display: inline-block;
+            padding-top: 10px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .print-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #a74e9e;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .result-grade {
+            font-weight: bold;
+        }
+        
+        .result-grade.pass {
+            color: #4caf50;
+        }
+        
+        .result-grade.fail {
+            color: #f44336;
+        }
+        
+        @media print {
+            body {
+                background-color: white;
+                color: black;
+                margin: 0;
+                padding: 0;
+            }
+            
+            @page {
+                size: letter;
+                margin: 0;
+            }
+            
+            .container, .nav, .section, .quiz-container, .print-btn {
+                display: none !important;
+            }
+            
+            .certificate {
+                display: block !important;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                padding: 0;
+                margin: 0;
+                border: none;
+                background: white;
+                height: 100%;
+                overflow: hidden;
+            }
+            
+            .certificate-content {
+                border: 10px solid #a74e9e;
+                padding: 30px;
+                width: 100%;
+                height: 100%;
+                max-height: 100vh;
+                box-sizing: border-box;
+                margin: 0;
+                position: relative;
+            }
+            
+            .certificate-title {
+                font-size: 28px;
+                margin-top: 0;
+                margin-bottom: 10px;
+            }
+            
+            .certificate-subtitle {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
+            
+            .certificate-text {
+                font-size: 14px;
+                margin-bottom: 10px;
+            }
+            
+            .certificate-name {
+                font-size: 24px;
+                margin: 15px 0;
+            }
+            
+            .certificate-results {
+                margin: 15px auto;
+                width: 80%;
+                transform: scale(0.9);
+            }
+            
+            .certificate-seal {
+                width: 80px;
+                height: 80px;
+                margin: 10px auto;
+            }
+            
+            .certificate-date {
+                margin-top: 20px;
+            }
+            
+            .certificate-signature {
+                margin-top: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>PE320 Pellet Extruder Training</h1>
+            <p class="subtitle">Comprehensive operator training for the Rapid Fusion PE320</p>
+        </header>
+        
+        <div class="nav" id="navigation">
+            <button class="nav-btn active" data-section="intro">Introduction</button>
+            <button class="nav-btn locked" data-section="safety">Safety</button>
+            <button class="nav-btn locked" data-section="operation">Operation</button>
+            <button class="nav-btn locked" data-section="maintenance">Maintenance</button>
+            <button class="nav-btn locked" data-section="troubleshooting">Troubleshooting</button>
+            <button class="nav-btn locked" data-section="certification">Certification</button>
+        </div>
+        
+        <!-- Introduction Section -->
+        <div class="section active" id="intro">
+            <h2 class="section-title">Introduction to the PE320 Pellet Extruder</h2>
+            
+            <div class="section-content">
+                <p>Welcome to the PE320 Pellet Extruder training program. This guide will teach you how to properly operate, maintain, and troubleshoot this equipment.</p>
+                
+                <h3>What You Need to Know</h3>
+                <p>The PE320 is a polymer extrusion tool designed for industrial 3D printing with these specifications:</p>
+                <ul>
+                    <li><strong>Weight:</strong> 22kg</li>
+                    <li><strong>Maximum material flow rate:</strong> 17 kg/h</li>
+                    <li><strong>Maximum temperature:</strong> 400°C</li>
+                    <li><strong>Motor:</strong> 1kW servo with 25:1 gearbox (60Nm continuous torque)</li>
+                    <li><strong>Temperature control:</strong> 4 heating zones with PT100 sensors</li>
+                </ul>
+                
+                <div class="note">
+                    <strong>Training Structure:</strong> Each section ends with a quiz. You must pass each section to continue to the next.
+                </div>
+                
+                <div class="diagram-container" style="text-align: center; margin: 30px 0;">
+                    <img src="images/PE320 v2 Labelled Diagram.png" alt="PE320 V2 Labeled Diagram" style="max-width: 600px; width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+                    <p style="margin-top: 10px; color: #888; font-size: 0.9em;">PE320 V2 Labeled Diagram - Click to enlarge</p>
+                </div>
+                
+                <h3>Main Components</h3>
+                <ul>
+                    <li><strong>Barrel Assembly:</strong> Hardened stainless-steel barrel designed to handle abrasive materials including carbon/glass fiber composites</li>
+                    <li><strong>Extrusion Screw:</strong> High-torque screw mechanism that transports and compresses the pellets through the barrel</li>
+                    <li><strong>Heating Bands:</strong> Four separate heating zones wrapped around the barrel for precise temperature control</li>
+                    <li><strong>PT100 Temperature Sensors:</strong> Four sensors monitoring temperature across different zones for accurate thermal management</li>
+                    <li><strong>Cooling Fans:</strong> Multiple cooling systems including 4x heat break fans and 3x extruder body fans to maintain thermal stability</li>
+                    <li><strong>Burst Plug (Rupture Disk):</strong> Safety feature that releases pressure if excessive buildup occurs in the barrel</li>
+                    <li><strong>Material Hopper:</strong> Upper section where pellets are loaded into the extruder</li>
+                    <li><strong>Nozzle Assembly:</strong> Exchangeable precision nozzle where melted material is extruded</li>
+                    <li><strong>Balluff Capacitive Proximity Switches:</strong> Two sensors that detect material presence and indicate when replenishment is needed</li>
+                    <li><strong>Gearbox:</strong> 25:1 ratio system that converts motor power into high torque for the extrusion screw</li>
+                </ul>
+                
+                <h3>Safety Considerations</h3>
+                <p>The PE320 operates at high temperatures and uses powerful motors. Always follow safety protocols outlined in later sections before operating this equipment.</p>
+                
+                <h3>How to Use This Guide</h3>
+                <p>Work through each section in order. The material progresses from basic setup to advanced operations and troubleshooting. Reference the user manual for additional technical specifications when needed.</p>
+                
+                <p>Let's begin with the fundamentals of PE320 operation.</p>
+            </div>
+            
+            <button class="quiz-btn" onclick="showQuiz('intro-quiz')">Take Quiz</button>
+            
+            <div class="quiz-container" id="intro-quiz">
+                <h3>Introduction Quiz</h3>
+                
+                <div class="quiz-question">
+                    <p>1. What key advantage does the PE320's weight-to-performance ratio provide?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">It can be transported by a single person</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">It enables mounting on small/medium sized robot, gantry, and CNC systems</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">It requires less power to operate than other extruders</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">It reduces shipping costs significantly</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>2. The PE320's temperature capabilities extend to:</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">350°C</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">400°C</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">450°C</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">500°C</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>3. Which safety component is designed to release pressure in case of excessive buildup in the barrel?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">PT100 sensor</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Cooling fan system</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Burst plug (rupture disk)</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Epicurus controller</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>4. What material challenge does the hardened stainless-steel barrel specifically address?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">High temperature resistance</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Processing abrasive materials like carbon/glass fiber composites</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Maintaining pressure consistency</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Preventing material contamination</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>5. How many sensors monitor material presence in the PE320?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">One</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Two</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Three</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Four</div>
+                    </div>
+                </div>
+                
+                <button class="submit-btn" onclick="submitQuiz('intro')">Submit Answers</button>
+                <div class="feedback" id="intro-feedback"></div>
+                <button class="next-btn" id="intro-next" onclick="navigateToSection('safety')">Continue to Safety Section</button>
+            </div>
+        </div>
+        
+        <!-- Safety Section -->
+        <div class="section" id="safety">
+            <h2 class="section-title">Safety Guidelines</h2>
+            
+            <div class="section-content">
+                <p>Operating the PE320 Pellet Extruder safely requires understanding both the inherent equipment hazards and the specific risks associated with your chosen materials. This section outlines basic safety requirements, but users must evaluate additional measures based on their specific materials and operating environment.</p>
+                
+                <div class="important">
+                    <h4>CRITICAL SAFETY WARNINGS</h4>
+                    <p>The PE320 operates at temperatures exceeding 400°C with powerful mechanical systems that present multiple hazards:</p>
+                    <ul>
+                        <li>Burns and thermal injuries from exposed heated surfaces and molten materials</li>
+                        <li>Mechanical pinch points in the extrusion mechanism</li>
+                        <li>Respiratory hazards from polymer fumes and particulates (material-dependent)</li>
+                        <li>Pressure-related dangers from the extrusion system</li>
+                    </ul>
+                </div>
+                
+                <div class="image-container" style="text-align: center; margin: 20px 0;">
+                    <img src="images/PE320 v2 Labelled Diagram.png" alt="PE320 V2 Labeled Diagram" style="max-width: 500px; width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+                    <p style="margin-top: 10px; color: #888; font-size: 0.9em;">PE320 V2 Labeled Diagram - Key safety components highlighted</p>
+                </div>
+                
+                <div class="important">
+                    <h4>HIGH-RISK MAINTENANCE ACTIVITIES</h4>
+                    <p><strong>AMPUTATION HAZARD:</strong> Never operate the motor when the pellet feeding system is removed. The exposed screw can catch tools, clothing, or body parts and pull them into the mechanism, causing severe injury or amputation. Always disconnect power and lock out the system before clearing blockages.</p>
+                    
+                    <div class="image-container" style="text-align: center; margin: 20px 0;">
+                        <img src="images/Screw intake .png" alt="Screw Intake Hazard" style="max-width: 400px; width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+                        <p style="margin-top: 10px; color: #888; font-size: 0.9em;">Screw Intake Area - High risk of amputation if accessed while powered</p>
+                    </div>
+                    
+                    <p><strong>BURN HAZARD:</strong> Nozzle changes must be performed while the system is hot. Use appropriate thermal gloves and tools. Never rush this process or attempt to handle components with inadequate protection.</p>
+                    <p><strong>RESPIRATORY HAZARD:</strong> When changing HEPA filters or clearing blockages, you will be exposed to concentrated polymer dust. Always wear an appropriate respirator mask and protective gloves for these operations.</p>
+                    
+                    <div class="image-container" style="text-align: center; margin: 20px 0;">
+                        <img src="images/filter changes .png" alt="HEPA Filter Change Procedure" style="max-width: 400px; width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+                        <p style="margin-top: 10px; color: #888; font-size: 0.9em;">HEPA Filter Change - Always wear appropriate respiratory protection</p>
+                    </div>
+                </div>
+                
+                <h3>REQUIRED: User Risk Assessment and Method Statement</h3>
+                <p>Before operating the PE320 Pellet Extruder, users must:</p>
+                <ul>
+                    <li>Complete a formal Risk Assessment and Method Statement (RAMS) specific to their workplace, materials, and processes</li>
+                    <li>Document all identified hazards, control measures, and safe work procedures</li>
+                    <li>Ensure all operators are trained on the RAMS document</li>
+                    <li>Keep the RAMS document accessible to all personnel</li>
+                    <li>Update the RAMS whenever processes, materials, or equipment changes occur</li>
+                </ul>
+                
+                <div class="note">
+                    <p>The information in this guide does not replace the need for a comprehensive, site-specific RAMS. Rapid Fusion cannot guarantee your safety or technical results if safety instructions are not followed or if an adequate RAMS has not been implemented.</p>
+                </div>
+                
+                <h3>Basic Environmental Requirements</h3>
+                <p>At minimum, the PE320 must be operated in an environment with:</p>
+                <ul>
+                    <li><strong>General Ventilation:</strong> Well-ventilated workspace with a minimum of 3-4 air changes per hour</li>
+                    <li><strong>Emergency Access:</strong> Clear access to emergency exits and fire suppression equipment</li>
+                    <li><strong>Workspace Clearance:</strong> Minimum 1-meter clearance around equipment for safe operation</li>
+                    <li><strong>Electrical Safety:</strong> Proper electrical service with appropriate circuit protection</li>
+                    <li><strong>Fire Safety:</strong> Appropriate fire extinguishers and detection systems</li>
+                </ul>
+                
+                <h3>User Responsibility for Specific Controls</h3>
+                <p>The above represents minimum requirements for general operation. Users must review the Material Safety Data Sheet (MSDS) for each specific material to determine if additional controls are necessary, such as:</p>
+                <ul>
+                    <li>Local exhaust ventilation</li>
+                    <li>Specialized filtration</li>
+                    <li>Enclosures or barriers</li>
+                    <li>Additional fire suppression measures</li>
+                    <li>Specialized PPE requirements</li>
+                </ul>
+                
+                <h3>Material-Specific Risk Assessment</h3>
+                <p>Users must complete the following for each material:</p>
+                <ul>
+                    <li>Obtain and review the material's MSDS/SDS before processing any polymer</li>
+                    <li>Conduct a risk assessment considering:
+                        <ul>
+                            <li>Polymer decomposition products and temperature thresholds</li>
+                            <li>Recommended ventilation requirements</li>
+                            <li>Fire and explosion hazards</li>
+                            <li>Special storage requirements</li>
+                            <li>Material-specific health hazards</li>
+                        </ul>
+                    </li>
+                    <li>Document additional controls based on your assessment</li>
+                </ul>
+                
+                <h3>Recommended Personal Protective Equipment</h3>
+                <table>
+                    <tr>
+                        <th>PPE Item</th>
+                        <th>Recommendation</th>
+                        <th>Purpose</th>
+                    </tr>
+                    <tr>
+                        <td>Heat Resistant Gloves</td>
+                        <td>EN420 standard</td>
+                        <td>Protection from thermal burns when working near hot components</td>
+                    </tr>
+                    <tr>
+                        <td>Safety Goggles</td>
+                        <td>ANSI Z87.1 standard</td>
+                        <td>Protection from potential material splashes or particles</td>
+                    </tr>
+                    <tr>
+                        <td>Respirator</td>
+                        <td>Type based on material MSDS</td>
+                        <td>Protection from material-specific fumes (consult MSDS)</td>
+                    </tr>
+                </table>
+                
+                <h3>Pre-Operation Safety Checks</h3>
+                <p>Before each use of the PE320, operators must complete these safety checks:</p>
+                
+                <h4>Equipment Inspection:</h4>
+                <ul>
+                    <li>Inspect all cables, connections, and hoses for damage or wear</li>
+                    <li>Ensure the burst plug (rupture disk) is intact and properly seated</li>
+                    
+                    <div class="image-container" style="text-align: center; margin: 20px 0;">
+                        <img src="images/Brust Plug .png" alt="Burst Plug Inspection" style="max-width: 400px; width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+                        <p style="margin-top: 10px; color: #888; font-size: 0.9em;">Burst Plug (Rupture Disk) - Critical safety component</p>
+                    </div>
+                    
+                    <li>Verify thermal sensors are operational and correctly positioned</li>
+                    <li>Confirm all guards and shields are properly installed</li>
+                </ul>
+                
+                <h3>Emergency Procedures</h3>
+                <p>In case of emergency:</p>
+                <ul>
+                    <li>Activate emergency stop immediately</li>
+                    <li>Evacuate area if smoke, fire, or material leakage occurs</li>
+                    <li>Use appropriate fire extinguisher based on material-specific requirements</li>
+                    <li>Report incident according to workplace protocols</li>
+                    <li>Seek medical attention for any injuries</li>
+                    <li>Document incident thoroughly</li>
+                </ul>
+                
+                <h3>Material Handling and Storage</h3>
+                <ul>
+                    <li>Store materials according to manufacturer specifications</li>
+                    <li>Protect materials from moisture and contamination</li>
+                    <li>Properly dispose of waste according to local regulations</li>
+                    <li>Follow material-specific drying protocols before processing</li>
+                    <li>Maintain clear labeling to prevent material mix-ups</li>
+                </ul>
+                
+                <h3>Operator Responsibilities</h3>
+                <p>All personnel working with the PE320 Pellet Extruder must:</p>
+                <ul>
+                    <li>Complete safety training appropriate for the equipment</li>
+                    <li>Understand the specific hazards of materials being processed</li>
+                    <li>Know emergency procedures and shutdown protocols</li>
+                    <li>Report any equipment malfunctions or safety concerns immediately</li>
+                    <li>Follow documented operating procedures at all times</li>
+                </ul>
+                
+                <div class="note">
+                    <p><strong>Remember:</strong> Safe operation requires understanding both equipment and material-specific hazards.</p>
+                </div>
+            </div>
+            
+            <button class="quiz-btn" onclick="showQuiz('safety-quiz')">Take Quiz</button>
+            
+            <div class="quiz-container" id="safety-quiz">
+                <h3>Safety Quiz</h3>
+                
+                <div class="quiz-question">
+                    <p>1. What primary hazard exists when removing the pellet feeding system while the motor is still powered?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Overheating of the barrel</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Excessive material leakage</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Amputation hazard from the exposed screw</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Electrical shock</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>2. What formal documentation must users complete before operating the PE320 Pellet Extruder?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Warranty registration form</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Risk Assessment and Method Statement (RAMS)</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Material purchase record</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Equipment calibration certificate</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>3. When must nozzle changes be performed on the PE320?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Only when the system is completely cold</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">At room temperature after a short cooling period</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">While the system is hot</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Only during factory maintenance</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>4. What protective equipment is specifically required when changing HEPA filters?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Only thermal gloves</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Respiratory protection appropriate for polymer dust</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Full face shield</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Chemical-resistant apron</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>5. Who bears responsibility for determining if additional safety controls are needed beyond the basic environmental requirements?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Rapid Fusion technical support</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">The equipment distributor</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">The user, based on MSDS and workplace assessment</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Local regulatory authorities</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>6. What should be done to the PE320 before removing any part of the pellet feeding system?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Increase motor speed to clear remaining material</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Complete power shutdown and lockout/tagout</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Raise the temperature to melt any blockages</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Contact manufacturer for approval</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>7. What is the primary reason a site-specific RAMS document must be updated?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Every 12 months as standard procedure</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">When processes, materials, or equipment changes occur</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">When requested by management</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">After every maintenance procedure</div>
+                    </div>
+                </div>
+                
+                <button class="submit-btn" onclick="submitQuiz('safety')">Submit Answers</button>
+                <div class="feedback" id="safety-feedback"></div>
+                <button class="next-btn" id="safety-next" onclick="navigateToSection('operation')">Continue to Operation Section</button>
+            </div>
+        </div>
+        
+        <!-- Operation Section -->
+        <div class="section" id="operation">
+            <h2 class="section-title">Operating Procedures</h2>
+            
+            <div class="section-content">
+                <p>This section covers the comprehensive procedures for safely and effectively operating the PE320 Pellet Extruder. Following these steps in sequence will help prevent equipment damage and ensure optimal extrusion quality.</p>
+                
+                <h3>Pre-Start Checklist</h3>
+                <p>Before powering on the PE320, complete these essential checks:</p>
+                <table>
+                    <tr>
+                        <th>Component</th>
+                        <th>Verification Action</th>
+                    </tr>
+                    <tr>
+                        <td>Electrical Connections</td>
+                        <td>Check for secure, undamaged wiring and connectors</td>
+                    </tr>
+                    <tr>
+                        <td>Burst Plug (Rupture Disk)</td>
+                        <td>Verify it's intact and properly seated</td>
+                    </tr>
+                    <tr>
+                        <td>PT100 Sensors</td>
+                        <td>Confirm all four sensors are properly inserted in their bayonet fittings</td>
+                    </tr>
+                    <tr>
+                        <td>Material Hopper</td>
+                        <td>Clean and free from contaminants</td>
+                    </tr>
+                    <tr>
+                        <td>Cooling Fans</td>
+                        <td>Ensure unobstructed and functional</td>
+                    </tr>
+                    <tr>
+                        <td>Gearbox</td>
+                        <td>Check for lubrication according to maintenance schedule</td>
+                    </tr>
+                </table>
+                
+                <div class="image-container" style="text-align: center; margin: 20px 0;">
+                    <img src="images/Brust Plug .png" alt="Burst Plug Inspection" style="max-width: 400px; width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+                    <p style="margin-top: 10px; color: #888; font-size: 0.9em;">Burst Plug (Rupture Disk) - Critical safety component</p>
+                </div>
+                
+                <h3>Critical Lubrication Requirements</h3>
+                <p>The gearbox must be properly lubricated monthly via the grease nipple according to the Wittenstein gearbox instructions. Regular monthly lubrication maintenance ensures proper operation and longevity of the equipment. Inadequate lubrication will lead to premature equipment failure not covered under warranty.</p>
+                
+                <div class="important">
+                    <h4>CRITICAL WARNING</h4>
+                    <p>The extruder must complete a full thermal stabilization before any material is processed. Rushing this step can cause catastrophic equipment damage including burst plug failure, screw breakage, or motor damage that is NOT covered by warranty.</p>
+                </div>
+                
+                <h3>Extruder Heating Protocol</h3>
+                <h4>Zone Heating Sequence</h4>
+                
+                <h5>Power-Up Sequence:</h5>
+                <ul>
+                    <li>Verify all emergency stops are released</li>
+                    <li>Power on the control panel</li>
+                    <li>Enable all heating zones</li>
+                </ul>
+                
+                <h5>Set Target Temperatures:</h5>
+                <ul>
+                    <li>Set the temperatures for each zone according to the material data sheet specifications</li>
+                    <li>Refer to the manufacturer's guidelines for the specific material being processed</li>
+                    <li>Never estimate or use arbitrary temperature values</li>
+                </ul>
+                
+                <div class="note">
+                    <p><strong>Note:</strong> Temperature settings directly affect material properties and equipment performance. Always consult material-specific data sheets for correct values.</p>
+                </div>
+                
+                <h5>Temperature Stabilization:</h5>
+                <ul>
+                    <li>Monitor temperature rise using the control interface</li>
+                    <li>Verify all zones reach and maintain target temperatures</li>
+                    <li><strong>MANDATORY:</strong> Allow a MINIMUM of 30 minutes stabilization time after all zones reach target temperatures</li>
+                    <li>Confirm heat break fans activate at 60°C (when using Rapid Fusion control panel)</li>
+                </ul>
+                
+                <h3>Heating Verification</h3>
+                <p>During the 30-minute stabilization period, verify:</p>
+                <ul>
+                    <li>Temperature readings remain stable (±5°C)</li>
+                    <li>No unusual noises from cooling fans</li>
+                    <li>No burning smells or smoke (indicates material degradation or excessive temperature)</li>
+                    <li>Control system reports no errors or warnings</li>
+                </ul>
+                
+                <h3>Material Processing</h3>
+                <h4>Material Preparation</h4>
+                <ul>
+                    <li>Use only properly dried materials according to manufacturer specifications</li>
+                    <li>Confirm pellet size is appropriate (3-5mm diameter, spherical preferred)</li>
+                    <li>Avoid materials with excessive fines or dust that could compact and cause feeding issues</li>
+                    <li>For new materials, consult material processing guidelines for temperature recommendations</li>
+                </ul>
+                
+                <div class="image-container" style="text-align: center; margin: 20px 0;">
+                    <img src="images/Screw intake .png" alt="Screw Intake" style="max-width: 400px; width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+                    <p style="margin-top: 10px; color: #888; font-size: 0.9em;">Screw Intake - Ensure proper material size and quality</p>
+                </div>
+                
+                <h4>Initial Extrusion Test</h4>
+                <div class="important">
+                    <p><strong>IMPORTANT:</strong> Never run with an empty barrel as the material acts as lubrication for the screw and barrel.</p>
+                </div>
+                
+                <h5>Material Loading:</h5>
+                <ul>
+                    <li>Load pellets into the hopper</li>
+                    <li>Begin extrusion at 50 RPM for approximately 60 seconds to clear any degraded material</li>
+                    <li>Observe initial extrusion at the nozzle</li>
+                </ul>
+                
+                <h4>Production Extrusion</h4>
+                <h5>Establishing Flow:</h5>
+                <ul>
+                    <li>Set RPM according to your material's throughput calibration data</li>
+                    <li>Use the Throughput Calibration Coefficients Calculator to determine proper settings</li>
+                    <li>Run a purge cycle for 60-90 seconds to establish consistent extrusion</li>
+                    <li>Document actual flow rates for future reference</li>
+                </ul>
+                
+                <h5>Extrusion Monitoring:</h5>
+                <ul>
+                    <li>Monitor motor current/torque readout - sustained high values indicate potential issues</li>
+                    <li>Watch for consistent material flow without surging or flow interruptions</li>
+                    <li>Check that heating zones maintain target temperatures during extrusion</li>
+                </ul>
+                
+                <h5>Process Adjustments:</h5>
+                <ul>
+                    <li>Adjust settings based on observed material behavior</li>
+                    <li>Document optimal settings for each material for future reference</li>
+                    <li>Perform recalibration if material batch changes significantly</li>
+                </ul>
+                
+                <h3>Critical Operational Monitoring</h3>
+                <p>During operation, continuously monitor for the following:</p>
+                <ul>
+                    <li><strong>Cooling Fans:</strong> Visually confirm all fans are operating properly throughout the extrusion process</li>
+                    <li><strong>Material Quality:</strong> Watch for:
+                        <ul>
+                            <li>No smoke or unusual vapors (indicates degradation)</li>
+                            <li>No popping or moisture-related issues</li>
+                            <li>No solid/unmelted bits in extruded material</li>
+                            <li>Consistent color and texture</li>
+                        </ul>
+                    </li>
+                    <li><strong>Unusual Sounds:</strong> Listen for squeaking or grinding noises that may indicate mechanical issues</li>
+                    <li><strong>Temperature Management:</strong>
+                        <ul>
+                            <li>Ensure top barrel temperature remains approximately 5°C below the material's glass transition temperature to prevent feed zone blockages</li>
+                            <li>If top barrel overheats, check if:
+                                <ul>
+                                    <li>Cooling fans are functioning properly</li>
+                                    <li>Lower zones are set to correct temperatures</li>
+                                    <li>Excessive friction is occurring due to improper screw speed</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <div class="note">
+                    <p><strong>Note:</strong> Proper monitoring prevents equipment damage and ensures consistent extrusion quality. Further troubleshooting guidance is provided in the Maintenance section.</p>
+                </div>
+                
+                <h3>Shutdown Procedure</h3>
+                <h4>Material Purging:</h4>
+                <ul>
+                    <li>If changing materials for next use:
+                        <ul>
+                            <li>Purge using an appropriate cleaning compound (such as Air Tech Dahlpram 009)</li>
+                            <li>Ensure all previous material is completely removed</li>
+                        </ul>
+                    </li>
+                    <li>If continuing with same material:
+                        <ul>
+                            <li>Extrude remaining material until flow becomes minimal</li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <div class="important">
+                    <p><strong>CRITICAL:</strong> High-temperature materials like PEI or PEEK must NEVER be left in the barrel as they can cause significant damage when solidified. For high-temperature materials, always purge with a lower-temperature material before shutdown.</p>
+                </div>
+                
+                <h4>Motor Shutdown:</h4>
+                <ul>
+                    <li>Stop the extrusion motor</li>
+                    <li>If applicable, disable motor power while maintaining heating zones</li>
+                </ul>
+                
+                <h4>Controlled Cooling (for brief pauses):</h4>
+                <ul>
+                    <li>For pauses less than 1 hour, reduce all zone temperatures by 30-50°C</li>
+                    <li>Maintain reduced temperatures to prevent material solidification in the barrel</li>
+                </ul>
+                
+                <h4>Complete Shutdown:</h4>
+                <ul>
+                    <li>Disable all heating zones</li>
+                    <li>Maintain cooling fan operation until temperatures fall below 80°C</li>
+                    <li>Once cooled, power down the control system</li>
+                    <li>Clean any excess material from the nozzle and surrounding areas</li>
+                </ul>
+                
+                <h3>Extended Shutdown Considerations</h3>
+                <p>For shutdowns lasting more than 24 hours:</p>
+                <ul>
+                    <li>Consider complete material purging with a stable, non-hygroscopic polymer</li>
+                    <li>Once cooled, cover the material hopper to prevent contamination</li>
+                    <li>Document the material remaining in the barrel for the next startup</li>
+                </ul>
+                
+                <div class="note">
+                    <p><strong>Remember:</strong> Following proper heating and cooling procedures is essential for equipment longevity and consistent extrusion quality.</p>
+                </div>
+            </div>
+            
+            <button class="quiz-btn" onclick="showQuiz('operation-quiz')">Take Quiz</button>
+            
+            <div class="quiz-container" id="operation-quiz">
+                <h3>Operation Quiz</h3>
+                
+                <div class="quiz-question">
+                    <p>1. What is the MANDATORY minimum stabilization time after all zones reach target temperatures?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">10 minutes</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">20 minutes</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">30 minutes</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">45 minutes</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>2. Which component contains a "rupture disk" that needs to be verified before operation?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Servo Drive</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Bursting Plug</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Heat Break Fans</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Material Hopper</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>3. At what temperature do the heat break fans automatically activate when using the Rapid Fusion control panel?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">50°C</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">60°C</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">70°C</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">80°C</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>4. How often should the gearbox be lubricated according to maintenance requirements?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Weekly</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Monthly</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Quarterly</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Annually</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>5. What is the recommended pellet size for use with the PE320 Pellet Extruder?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">1-2mm diameter</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">3-5mm diameter</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">6-8mm diameter</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">8-10mm diameter</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>6. What type of sensors are used for temperature measurement in the PE320 extruder?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Thermocouples</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">PT100 sensors</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Infrared sensors</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Thermistors</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>7. What can happen if the extruder is operated without completing a full thermal stabilization?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Minor performance decrease</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Slight reduction in material quality</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Burst plug failure, screw breakage, or motor damage</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Temporary system shutdown</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>8. What should you NEVER do when shutting down the extruder after using high-temperature materials like PEI or PEEK?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Leave the material in the barrel</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Purge with lower-temperature material</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Clean the nozzle area</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Reduce zone temperatures gradually</div>
+                    </div>
+                </div>
+                
+                <button class="submit-btn" onclick="submitQuiz('operation')">Submit Answers</button>
+                <div class="feedback" id="operation-feedback"></div>
+                <button class="next-btn" id="operation-next" onclick="navigateToSection('maintenance')">Continue to Maintenance Section</button>
+            </div>
+        </div>
+        
+        <!-- Maintenance Section -->
+        <div class="section" id="maintenance">
+            <h2 class="section-title">Comprehensive Maintenance Procedures</h2>
+            
+            <div class="section-content">
+                <p>Regular maintenance is critical for keeping your PE320 Pellet Extruder operating efficiently and extending its service life. This section covers essential maintenance procedures and troubleshooting.</p>
+                
+                <h3>Regular Maintenance Schedule</h3>
+                <table>
+                    <tr>
+                        <th>Frequency</th>
+                        <th>Maintenance Tasks</th>
+                    </tr>
+                    <tr>
+                        <td>Before Each Use</td>
+                        <td>
+                            <ul>
+                                <li>Clean the hopper and feed system</li>
+                                <li>Verify all heating elements are functioning</li>
+                                <li>Check for any visible damage or loose parts</li>
+                                <li>Inspect PT100 sensors for secure connection</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Weekly</td>
+                        <td>
+                            <ul>
+                                <li>Inspect all electrical connections</li>
+                                <li>Check cooling fans for proper operation</li>
+                                <li>Clean the exterior surfaces of the extruder</li>
+                                <li>Inspect nozzle for wear and buildup</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Monthly</td>
+                        <td>
+                            <ul>
+                                <li>Apply grease to gearbox via lubrication nipple</li>
+                                <li>Inspect the extrusion screw for wear and damage</li>
+                                <li>Verify all temperature sensors are accurate</li>
+                                <li>Check material feed system for blockages</li>
+                                <li>Check motor to gearbox torque</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Quarterly</td>
+                        <td>
+                            <ul>
+                                <li>Perform thorough cleaning of all components</li>
+                                <li>Check all fasteners for proper torque</li>
+                                <li>Calibrate temperature sensors if necessary</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Annually</td>
+                        <td>
+                            <ul>
+                                <li>Complete disassembly and inspection of critical components</li>
+                                <li>Replace worn parts as needed</li>
+                                <li>Professional servicing recommended</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+                
+                <h3>Burst Plug Replacement Procedure</h3>
+                <p>If material is flowing from the side of the extruder nozzle heater, it indicates that the burst plug (rupture disk) has failed, likely due to overpressure in the barrel caused by extruding before the barrel reached the appropriate temperature.</p>
+                
+                <div class="image-container" style="text-align: center; margin: 20px 0;">
+                    <img src="images/Brust Plug .png" alt="Burst Plug Inspection" style="max-width: 400px; width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+                    <p style="margin-top: 10px; color: #888; font-size: 0.9em;">Burst Plug (Rupture Disk) - Critical safety component</p>
+                </div>
+                
+                <h4>Required Tools and Materials</h4>
+                <ul>
+                    <li>Heat-resistant gloves (EN420 standard)</li>
+                    <li>Appropriate safety goggles (ANSI Z87.1 standard)</li>
+                    <li>Torque wrench capable of 25Nm</li>
+                    <li>Replacement burst plug</li>
+                    <li>Cleaning tools (brass wire brush, scraper)</li>
+                    <li>High-temperature anti-seize compound</li>
+                </ul>
+                
+                <h4>Step-by-Step Replacement Procedure</h4>
+                <h5>Safety Preparation:</h5>
+                <ul>
+                    <li>Ensure all power to the extruder is disconnected</li>
+                    <li>Allow controlled cooling if the unit was recently in operation</li>
+                    <li>Put on all required PPE before beginning work</li>
+                </ul>
+                
+                <h5>Heat the Extruder:</h5>
+                <ul>
+                    <li>Reconnect power and raise the PE320 extruder temperature to the material's molten temperature (typically 20°C above the material melting point)</li>
+                    <li>Monitor temperature readings to ensure proper heating</li>
+                    <li>Allow the system to stabilize at this temperature for 10-15 minutes</li>
+                </ul>
+                
+                <h5>Access and Remove the Burst Plug:</h5>
+                <ul>
+                    <li>Locate the burst plug near the nozzle heater assembly</li>
+                    <li>Using the appropriate tool, carefully unscrew the burst plug in a counterclockwise direction</li>
+                    <li>If resistance is encountered, increase temperature slightly and try again - do not force removal</li>
+                </ul>
+                
+                <h5>Clean the Area Thoroughly:</h5>
+                <ul>
+                    <li>Remove all molten material from the burst plug housing using appropriate cleaning tools</li>
+                    <li>Inspect the threads in the housing for damage</li>
+                    <li>Ensure the sealing surfaces are completely clean and free of debris</li>
+                    <li>Allow cleaning solvents (if used) to fully evaporate before proceeding</li>
+                </ul>
+                
+                <h5>Install the New Burst Plug:</h5>
+                <ul>
+                    <li>Apply a thin layer of high-temperature anti-seize compound to the threads</li>
+                    <li>Insert the replacement burst plug and hand-tighten initially</li>
+                    <li>Using a calibrated torque wrench, tighten to exactly 25Nm</li>
+                    <li>Avoid over-tightening which can damage the threads or the new burst plug</li>
+                </ul>
+                
+                <h5>Verification and Testing:</h5>
+                <ul>
+                    <li>Allow the system to cool to room temperature</li>
+                    <li>Perform a heating test without material to verify the seal is intact</li>
+                    <li>Observe the area during the heating test to confirm no leakage</li>
+                    <li>Document the replacement in your maintenance log</li>
+                </ul>
+                
+                <div class="note">
+                    <p><strong>Important Notes:</strong></p>
+                    <ul>
+                        <li>Always use genuine replacement parts from Rapid Fusion</li>
+                        <li>Burst plug failures are typically preventable by following proper heating protocols</li>
+                        <li>Repeated burst plug failures indicate a potential operational issue that should be investigated</li>
+                        <li>After replacement, review operating procedures with all operators to prevent recurrence</li>
+                    </ul>
+                </div>
+                
+                <h3>Cooling Fan Maintenance</h3>
+                <p>Proper cooling fan operation is critical for maintaining temperature stability and preventing damage to the PE320 extruder.</p>
+                
+                <h4>Cooling Fan Cleaning Procedure</h4>
+                <h5>Safety Preparation:</h5>
+                <ul>
+                    <li>Disconnect all power to the system</li>
+                    <li>Allow the extruder to cool completely</li>
+                    <li>Wear appropriate PPE including safety glasses and gloves</li>
+                </ul>
+                
+                <h5>Accessing the Fans:</h5>
+                <ul>
+                    <li>Identify all fan locations - 4x heat break fans and 3x extruder body fans</li>
+                    <li>Remove protective grilles if present, using appropriate tools</li>
+                </ul>
+                
+                <h5>Cleaning Process:</h5>
+                <ul>
+                    <li>Use compressed air (max 30 PSI) to blow dust from fan blades and housing</li>
+                    <li>For stubborn debris, use a soft brush to gently clean fan blades</li>
+                    <li>Clean fan grilles thoroughly before reinstallation</li>
+                    <li>Avoid using liquid cleaners that could damage electronics</li>
+                </ul>
+                
+                <h5>Inspection:</h5>
+                <ul>
+                    <li>Check fan blades for cracks, deformation, or imbalance</li>
+                    <li>Verify fan bearings operate smoothly without noise</li>
+                    <li>Ensure electrical connections are secure and undamaged</li>
+                    <li>Test fan operation before reinstalling protective covers</li>
+                </ul>
+                
+                <h5>Documentation:</h5>
+                <ul>
+                    <li>Record the cleaning in your maintenance log</li>
+                    <li>Note any fans that show signs of wear requiring future replacement</li>
+                </ul>
+                
+                <h3>HEPA Filter Maintenance</h3>
+                <p>HEPA filters in the pellet feeding system must be inspected after EACH USE when working with dusty materials.</p>
+                
+                <div class="image-container" style="text-align: center; margin: 20px 0;">
+                    <img src="images/filter changes .png" alt="HEPA Filter Change" style="max-width: 400px; width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+                    <p style="margin-top: 10px; color: #888; font-size: 0.9em;">HEPA Filter Maintenance - Always wear appropriate respiratory protection</p>
+                </div>
+                
+                <h4>Preparation:</h4>
+                <ul>
+                    <li>Power down the pellet feeding system</li>
+                    <li>Wear respiratory protection to avoid inhaling accumulated particles</li>
+                </ul>
+                
+                <h4>Inspection Process:</h4>
+                <ul>
+                    <li>Remove filter access panel</li>
+                    <li>Examine filter for visible dust accumulation</li>
+                    <li>Check for material buildup that could restrict airflow</li>
+                    <li>Tap filter gently to check for excessive dust release</li>
+                </ul>
+                
+                <div class="important">
+                    <h4>Critical Warning Signs:</h4>
+                    <ul>
+                        <li>If the pellet feeding system repeatedly attempts to push material but fails, immediately check for filter blockage</li>
+                        <li>Continuous activation of the feeding system without material flow indicates restricted airflow through a clogged filter</li>
+                    </ul>
+                </div>
+                
+                <h4>Cleaning/Replacement:</h4>
+                <ul>
+                    <li>For light dust, clean with compressed air (blow from clean side to dirty side)</li>
+                    <li>Replace filter if visibly clogged or airflow is restricted</li>
+                    <li>Document filter condition and any replacements in maintenance log</li>
+                </ul>
+                
+                <h4>System Verification:</h4>
+                <ul>
+                    <li>After filter maintenance, run a brief test of the feeding system</li>
+                    <li>Confirm proper material flow and vacuum pressure</li>
+                    <li>Listen for normal operation sounds without straining</li>
+                </ul>
+                
+                <div class="important">
+                    <p><strong>CRITICAL NOTE:</strong> A clogged HEPA filter will severely compromise the feeding system's efficiency and can lead to material starvation in the extruder. This creates a dangerous condition where the screw rotates without sufficient material, potentially causing equipment damage.</p>
+                </div>
+                
+                <h3>Motor-Gearbox Torque Verification (Monthly)</h3>
+                <p>The connection between the motor and gearbox is critical for proper extrusion performance and must be checked monthly.</p>
+                
+                <h4>Safety Preparation:</h4>
+                <ul>
+                    <li>Ensure appropriate PPE is worn (heat-resistant gloves and safety glasses)</li>
+                    <li>Ensure the extruder is at operating temperature</li>
+                    <li>Remove material from the hopper</li>
+                    <li>Keep the motor powered but not actively extruding</li>
+                </ul>
+                
+                <h4>Access Procedure:</h4>
+                <ul>
+                    <li>Locate the access screw on the motor-gearbox coupling housing</li>
+                    <li>Carefully remove the access screw while maintaining awareness of hot surfaces</li>
+                    <li>Keep the access screw in a secure location to prevent loss</li>
+                </ul>
+                
+                <h4>Grub Screw Alignment:</h4>
+                <ul>
+                    <li>Using the control interface, slowly jog the motor at very low RPM (5-10 RPM)</li>
+                    <li>Observe through the access hole until the grub screw becomes visible and accessible</li>
+                    <li>Stop the motor precisely when the grub screw is aligned with the access hole</li>
+                </ul>
+                
+                <h4>Torque Verification and Adjustment:</h4>
+                <ul>
+                    <li>Using the appropriate sized hex key/Allen wrench, check if the grub screw is secure</li>
+                    <li>If loose, tighten the grub screw to the manufacturer's specified torque value:
+                        <ul>
+                            <li>For V1 Extruder (Copley Controls): 8.5 Nm</li>
+                            <li>For V2 Extruder (Schneider Electric): 12 Nm</li>
+                        </ul>
+                    </li>
+                    <li>Use a calibrated torque tool to ensure precise tightening</li>
+                    <li>Do not overtighten as this may damage the coupling or shaft</li>
+                </ul>
+                
+                <h4>Reassembly:</h4>
+                <ul>
+                    <li>Verify the grub screw is properly seated and torqued</li>
+                    <li>Replace the access screw and tighten securely</li>
+                    <li>Ensure no tools are left in the machinery before resuming operation</li>
+                </ul>
+                
+                <h4>Documentation:</h4>
+                <ul>
+                    <li>Record the inspection in the maintenance log</li>
+                    <li>Note the condition of the coupling and whether adjustment was needed</li>
+                    <li>Document the torque value applied</li>
+                </ul>
+                
+                <div class="important">
+                    <p><strong>CRITICAL WARNING:</strong> This procedure must be performed while the extruder is at operating temperature as thermal expansion affects the coupling fit. However, extreme caution must be exercised due to the proximity of hot components. Never attempt this procedure without proper heat-resistant PPE and training.</p>
+                </div>
+                
+                <div class="note">
+                    <p><strong>MANUFACTURER NOTE:</strong> Failure to maintain proper torque settings on the motor-gearbox coupling will void warranty coverage for damage to these components. Always refer to the current revision of the manufacturer's documentation for the most up-to-date torque specifications.</p>
+                </div>
+                
+                <h3>Cable and Tubing Inspection</h3>
+                <p>Regular inspection of cables and tubing prevents failures that could cause downtime or safety hazards.</p>
+                
+                <h4>Cable Inspection Checklist</h4>
+                <ul>
+                    <li>Examine all cables for cuts, abrasions, or exposed wiring</li>
+                    <li>Check cable strain reliefs at connection points</li>
+                    <li>Verify cable routing avoids pinch points during machine movement</li>
+                    <li>Inspect connectors for corrosion, bent pins, or improper seating</li>
+                    <li>Test cable flexibility, especially in areas with repeated movement</li>
+                    <li>Measure resistance on critical cables to verify integrity</li>
+                    <li>Secure any loose cables with appropriate ties or routing hardware</li>
+                </ul>
+                
+                <h4>Tubing Inspection Process</h4>
+                <h5>Visual Inspection:</h5>
+                <ul>
+                    <li>Check all pneumatic and material feed tubing for cracks, kinks, or wear</li>
+                    <li>Pay special attention to connection points and areas with repeated movement</li>
+                    <li>Inspect for any material buildup inside transparent tubes</li>
+                </ul>
+                
+                <h5>Connection Verification:</h5>
+                <ul>
+                    <li>Ensure all tube fittings are secure</li>
+                    <li>Check quick-connect fittings for proper engagement</li>
+                    <li>Verify clamps maintain proper pressure without crushing tubing</li>
+                </ul>
+                
+                <h5>Functional Testing:</h5>
+                <ul>
+                    <li>Perform low-pressure air test to identify leaks (use soapy water to locate bubbles)</li>
+                    <li>Verify proper material flow through material feed system</li>
+                    <li>Test the Rapid Fusion Air Plus module (if equipped) for proper venturi operation</li>
+                </ul>
+                
+                <h5>Preventive Maintenance:</h5>
+                <ul>
+                    <li>Replace any tubing showing signs of wear or age-hardening</li>
+                    <li>Rotate tubing at high-wear points to extend service life</li>
+                    <li>Document all tubing replacement for future reference</li>
+                </ul>
+                
+                <h3>Material Change Procedure</h3>
+                <p>Properly changing materials in your PE320 Pellet Extruder is critical for preventing cross-contamination and ensuring optimal print quality. Follow this procedure when switching between different materials.</p>
+                
+                <h4>Required Tools and Materials</h4>
+                <ul>
+                    <li>Heat-resistant gloves (EN420 standard)</li>
+                    <li>Safety goggles (ANSI Z87.1 standard)</li>
+                    <li>Vacuum system with appropriate attachments</li>
+                    <li>Purging compound (recommended: Air Tech Dahlpram 009)</li>
+                    <li>Clean cloth or wipes</li>
+                </ul>
+                
+                <h4>Step-by-Step Material Change Procedure</h4>
+                <h5>Safety Preparation:</h5>
+                <ul>
+                    <li>Ensure the extruder is at operating temperature for the current material</li>
+                    <li>Wear appropriate PPE including heat-resistant gloves and safety glasses</li>
+                    <li>Ensure good ventilation, especially when working with engineering polymers</li>
+                </ul>
+                
+                <h5>Disconnect Material Feed System:</h5>
+                <ul>
+                    <li>Power down the compressed air supply to the material feed system</li>
+                    <li>Disconnect material sensors to prevent accidental activation</li>
+                    <li>Remove the camlock hose connection from the extruder hopper</li>
+                </ul>
+                
+                <h5>Remove Existing Material:</h5>
+                <ul>
+                    <li>Using a vacuum system, thoroughly remove all remaining pellets from the hopper</li>
+                    <li>Inspect the hopper and feed throat to ensure all material has been removed</li>
+                    <li>Clean any residual dust or material fragments from the hopper surfaces</li>
+                </ul>
+                
+                <h5>Clean and Inspect Filters:</h5>
+                <ul>
+                    <li>While the material feed system is disconnected, access the HEPA filters</li>
+                    <li>Vacuum the filter housings to remove any dust or material particles</li>
+                    <li>Clean or replace filters if necessary based on condition</li>
+                    <li>Check all air pathways for blockages or material buildup</li>
+                </ul>
+                
+                <h5>Purge the Extruder:</h5>
+                <ul>
+                    <li>Execute a purging command in the control system</li>
+                    <li>If changing from high to low temperature material, first purge with an appropriate cleaning compound at the higher temperature</li>
+                    <li>Continue purging until the material flow is clean and consistent with no signs of the previous material</li>
+                    <li>For thorough material changes, multiple purge cycles may be necessary</li>
+                </ul>
+                
+                <h5>Reassemble the Feed System:</h5>
+                <ul>
+                    <li>Reconnect the camlock hose to the extruder hopper</li>
+                    <li>Reconnect material sensors</li>
+                    <li>Restore compressed air supply to the material feed system</li>
+                </ul>
+                
+                <h5>Load New Material:</h5>
+                <ul>
+                    <li>Load the new material into the feeding system</li>
+                    <li>Adjust temperature zones to the appropriate settings for the new material</li>
+                    <li>Allow the system to reach and stabilize at the new temperature settings</li>
+                </ul>
+                
+                <h5>Documentation:</h5>
+                <ul>
+                    <li>Record the material change in your maintenance log</li>
+                    <li>Document the purge procedure used and its effectiveness</li>
+                    <li>Note any issues encountered during the change process</li>
+                </ul>
+                
+                <div class="important">
+                    <p><strong>CRITICAL WARNING:</strong> When transitioning from high-temperature materials (like PEI or PEEK) to lower-temperature materials, never skip the purging step with an appropriate cleaning compound. Direct transition can cause material degradation, smoke, fire hazards, and equipment damage not covered under warranty.</p>
+                </div>
+            </div>
+            
+            <button class="quiz-btn" onclick="showQuiz('maintenance-quiz')">Take Quiz</button>
+            
+            <div class="quiz-container" id="maintenance-quiz">
+                <h3>Maintenance Quiz</h3>
+                
+                <div class="quiz-question">
+                    <p>1. What is the critical safety component that requires regular inspection and replacement when damaged?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Cooling fan assembly</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Burst plug (rupture disk)</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Material hopper</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Control panel</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>2. What is the correct torque specification for the V2 Extruder (Schneider Electric) motor-gearbox coupling?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">8.5 Nm</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">12 Nm</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">15 Nm</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">25 Nm</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>3. When should the HEPA filters in the pellet feeding system be inspected?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Weekly</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Monthly</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Quarterly</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">After each use when working with dusty materials</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>4. What indicates that the burst plug has failed?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">The control panel displays an error code</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Material is flowing from the side of the extruder nozzle heater</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">The extruder stops rotating</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Unusual noise from the gearbox</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>5. What is the recommended torque for tightening a new burst plug?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">8.5 Nm</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">12 Nm</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">15 Nm</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">25 Nm</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>6. What maintenance task should be performed monthly on the gearbox?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Complete disassembly and inspection</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Apply grease via lubrication nipple</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Replace worn parts</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Calibrate temperature sensors</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>7. What should you do before attempting to remove a burst plug?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Cool the extruder completely</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Raise the extruder temperature to the material's molten temperature</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Apply high-pressure air to clear the area</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Remove all electrical connections</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>8. What is a critical warning sign that the HEPA filter needs attention?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">The extruder temperature fluctuates</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">The pellet feeding system repeatedly attempts to push material but fails</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">The cooling fans make unusual noises</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">The control panel displays a filter warning</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>9. What should be applied to the threads when installing a new burst plug?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Thread-locking compound</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Silicone sealant</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">High-temperature anti-seize compound</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Thermal paste</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>10. How often should all fasteners be checked for proper torque?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Weekly</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Monthly</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Quarterly</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Annually</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>11. When changing materials in the extruder, what is a critical step when transitioning from high to low temperature materials?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Rapidly cool the extruder</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">First purge with an appropriate cleaning compound at the higher temperature</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Skip the purging step to prevent material waste</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Remove and clean the extrusion screw</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>12. The motor-gearbox torque verification procedure must be performed when the extruder is:</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Completely cool</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">At room temperature</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">At operating temperature</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Disconnected from power</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>13. What is the first step in the burst plug replacement procedure?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Disconnect all power to the extruder</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Heat the extruder</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Apply anti-seize compound</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Remove the old burst plug</div>
+                    </div>
+                </div>
+                
+                <button class="submit-btn" onclick="submitQuiz('maintenance')">Submit Answers</button>
+                <div class="feedback" id="maintenance-feedback"></div>
+                <button class="next-btn" id="maintenance-next" onclick="navigateToSection('troubleshooting')">Continue to Troubleshooting Section</button>
+            </div>
+        </div>
+        
+        <!-- Troubleshooting Section -->
+        <div class="section" id="troubleshooting">
+            <h2 class="section-title">PE320 Pellet Extruder Troubleshooting Guide</h2>
+            <div class="section-content">
+                <h3>No Material Extrusion</h3>
+                <table>
+                    <tr>
+                        <th>Potential Cause</th>
+                        <th>Solution</th>
+                    </tr>
+                    <tr>
+                        <td>Insufficient Heating</td>
+                        <td>
+                            <ul>
+                                <li>Verify all four heating zones (Top, Mid, Bottom, Nozzle) have reached target temperatures</li>
+                                <li>Ensure the extruder has stabilized at temperature for at least 30 minutes before extrusion</li>
+                                <li>Check PT100 temperature sensors for proper connection to their designated ports</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Material Supply Issues</td>
+                        <td>
+                            <ul>
+                                <li>Confirm the hopper contains sufficient pellet material</li>
+                                <li>Verify the Balluff capacitive proximity sensors are functioning properly</li>
+                                <li>Check that the Air Plus Module is delivering pellets consistently</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Clogged Pellet Intake</td>
+                        <td>
+                            <ul>
+                                <li>Inspect the pellet intake for clogs, especially if the extruder has been left hot and idle</li>
+                                <li>Follow the "Clogged Pellet Intake" procedure in the Maintenance section</li>
+                                <li>Turn off the compressor or disconnect dual material sensors before clearing</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Motor/Drive Issues</td>
+                        <td>
+                            <ul>
+                                <li>Verify the servo motor is receiving proper commands and power</li>
+                                <li>Check servo drive connection and configuration</li>
+                                <li>Ensure motor RPM calculations are correct (Motor RPM = Desired Screw RPM × Gearbox Ratio)</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Incorrect Extruder Control</td>
+                        <td>
+                            <ul>
+                                <li>Confirm the control method (STEP/DIR, EtherCAT, or Ethernet IP) is properly configured</li>
+                                <li>Verify communication between the control system and the servo drive</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+
+                <h3>Material Leaking from Side</h3>
+                <table>
+                    <tr>
+                        <th>Potential Cause</th>
+                        <th>Solution</th>
+                    </tr>
+                    <tr>
+                        <td>Burst Plug Failure</td>
+                        <td>
+                            <ul>
+                                <li>Heat the extruder to material's molten temperature</li>
+                                <li>Carefully unscrew the burst plug near the nozzle heater</li>
+                                <li>Clean the area thoroughly to remove excess material</li>
+                                <li>Install a new burst plug at the specified torque</li>
+                                <li>In future, always ensure proper heating time (30 minutes) before extrusion</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+
+                <h3>Inconsistent Extrusion Flow</h3>
+                <table>
+                    <tr>
+                        <th>Potential Cause</th>
+                        <th>Solution</th>
+                    </tr>
+                    <tr>
+                        <td>Material Issues</td>
+                        <td>
+                            <ul>
+                                <li>Ensure pellets are properly dried according to material specifications</li>
+                                <li>Check for consistent pellet size (3-5mm diameter)</li>
+                                <li>Confirm material is compatible with current temperature settings</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Temperature Variations</td>
+                        <td>
+                            <ul>
+                                <li>Verify stable temperatures across all heating zones</li>
+                                <li>Check for fluctuations in temperature readings that might indicate sensor issues</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Hopper Feed Problems</td>
+                        <td>
+                            <ul>
+                                <li>Ensure smooth operation of the pellet feeding system</li>
+                                <li>Check for blockages in the Air Plus Module or conveying tube</li>
+                                <li>Verify correct operation of the Balluff capacitive proximity sensors</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Motor Speed Fluctuations</td>
+                        <td>
+                            <ul>
+                                <li>Check for consistent motor speed during operation</li>
+                                <li>Verify servo drive is not experiencing errors or overheating</li>
+                                <li>Ensure correct throughput calibration for the specific material</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+
+                <h3>Extruder Overheating</h3>
+                <table>
+                    <tr>
+                        <th>Potential Cause</th>
+                        <th>Solution</th>
+                    </tr>
+                    <tr>
+                        <td>Heat Break Fan Failure</td>
+                        <td>
+                            <ul>
+                                <li>Verify that heat break fans activate automatically at 60°C</li>
+                                <li>Check electrical connections to fans</li>
+                                <li>Replace any non-functional fans</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Temperature Control Issues</td>
+                        <td>
+                            <ul>
+                                <li>Verify PT100 sensors are properly connected and functioning</li>
+                                <li>Check solid state relays if using standalone control</li>
+                                <li>Ensure temperature control system is correctly configured</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Material Residence Time</td>
+                        <td>
+                            <ul>
+                                <li>Avoid keeping material in a heated state for extended periods</li>
+                                <li>Purge the system if the extruder has been idle while hot</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+
+                <h3>Mechanical Issues</h3>
+                <table>
+                    <tr>
+                        <th>Potential Cause</th>
+                        <th>Solution</th>
+                    </tr>
+                    <tr>
+                        <td>Gearbox Lubrication</td>
+                        <td>
+                            <ul>
+                                <li>Verify proper lubrication according to Wittenstein gearbox instructions</li>
+                                <li>Follow maintenance schedule for relubrication</li>
+                                <li>Check for any unusual noises that might indicate gearbox issues</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Mounting Stability</td>
+                        <td>
+                            <ul>
+                                <li>Ensure the extruder is securely mounted to the motion system</li>
+                                <li>Check that all four M8 mounting bolts are properly tightened</li>
+                                <li>Verify there is no movement or vibration during operation</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Barrel/Screw Damage</td>
+                        <td>
+                            <ul>
+                                <li>If experiencing unusual resistance or noise, check for possible screw damage</li>
+                                <li>Avoid operating with incompatible materials that could damage components</li>
+                                <li>Follow material transition guidelines to prevent carbonization and barrel damage</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+
+                <h3>Material Change Issues</h3>
+                <table>
+                    <tr>
+                        <th>Potential Cause</th>
+                        <th>Solution</th>
+                    </tr>
+                    <tr>
+                        <td>Improper Transition</td>
+                        <td>
+                            <ul>
+                                <li>Never transition directly from high-temperature to low-temperature materials</li>
+                                <li>Always use appropriate purge material between material changes</li>
+                                <li>Follow the detailed material change procedures in the manual</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Material Contamination</td>
+                        <td>
+                            <ul>
+                                <li>Ensure complete purging of previous material before introducing new material</li>
+                                <li>Use purge compounds (such as Air Tech Dahlpram 009) for effective cleaning</li>
+                                <li>Allow sufficient time for complete material changeover</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Carbonization</td>
+                        <td>
+                            <ul>
+                                <li>If experiencing blockages after material changes, check for carbonized material</li>
+                                <li>Follow cautionary measures for material changes to prevent carbonization</li>
+                                <li>Consider professional cleaning if severe carbonization has occurred</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+
+                <h3>Control System Problems</h3>
+                <table>
+                    <tr>
+                        <th>Potential Cause</th>
+                        <th>Solution</th>
+                    </tr>
+                    <tr>
+                        <td>Epicurus Controller</td>
+                        <td>
+                            <ul>
+                                <li>Follow proper boot-up sequence specific to your extruder version</li>
+                                <li>Verify all connections between controller and extruder</li>
+                                <li>Check for any error codes on the controller display</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Standalone Control</td>
+                        <td>
+                            <ul>
+                                <li>Verify proper wiring according to diagrams</li>
+                                <li>Check solid state relays and temperature control system</li>
+                                <li>Ensure servo drive is correctly configured for your control method</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>E-steps Calibration</td>
+                        <td>
+                            <ul>
+                                <li>Recalibrate E-steps if using Duet control with inconsistent material flow</li>
+                                <li>Verify throughput calibration for each material and nozzle combination</li>
+                                <li>Follow the detailed calibration procedures in the manual</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+
+                <h3>Preventative Maintenance Checks</h3>
+                <ul>
+                    <li><strong>Pre-Start Checks:</strong>
+                        <ul>
+                            <li>Clean the extruder and all components thoroughly</li>
+                            <li>Inspect mechanical parts for wear or damage</li>
+                            <li>Verify lubrication of moving parts</li>
+                            <li>Confirm heat break fans are operational</li>
+                            <li>Allow proper temperature stabilization (30 minutes)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Regular Maintenance:</strong>
+                        <ul>
+                            <li>Follow Wittenstein gearbox lubrication requirements</li>
+                            <li>Keep the pellet intake area clean to prevent clogs</li>
+                            <li>Monitor for unusual noises or vibrations</li>
+                            <li>Check all electrical connections periodically</li>
+                            <li>Inspect the burst plug for signs of stress or wear</li>
+                        </ul>
+                    </li>
+                    <li><strong>Safety Measures:</strong>
+                        <ul>
+                            <li>Wear appropriate PPE including heat-resistant gloves and safety goggles</li>
+                            <li>Ensure proper ventilation when working with materials that may produce fumes</li>
+                            <li>Follow all safety guidelines in the manual</li>
+                            <li>Conduct regular safety inspections of the entire system</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <button class="quiz-btn" onclick="showQuiz('troubleshooting-quiz')">Take Quiz</button>
+            <div class="quiz-container" id="troubleshooting-quiz">
+                <h3>Troubleshooting Quiz</h3>
+                <div class="quiz-question">
+                    <p>1. How long should the extruder be maintained at target temperatures before beginning extrusion?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">10 minutes</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">15 minutes</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">30 minutes</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">60 minutes</div>
+                    </div>
+                </div>
+                <div class="quiz-question">
+                    <p>2. What is the cause if material is leaking from the side of the extruder near the nozzle heater?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Gearbox failure</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Burst plug failure</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Motor drive issues</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Heat break fan failure</div>
+                    </div>
+                </div>
+                <div class="quiz-question">
+                    <p>3. What should you do before clearing a clogged pellet intake?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Turn off the compressor or disconnect dual material sensors</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Increase the extruder temperature</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Restart the Epicurus Controller</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Add more pellets to the hopper</div>
+                    </div>
+                </div>
+                <div class="quiz-question">
+                    <p>4. What formula is used to calculate the correct motor RPM?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Motor RPM = Desired Screw RPM ÷ Gearbox Ratio</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Motor RPM = Desired Screw RPM × Gearbox Ratio</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Motor RPM = Gearbox Ratio ÷ Desired Screw RPM</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Motor RPM = Gearbox Ratio + Desired Screw RPM</div>
+                    </div>
+                </div>
+                <div class="quiz-question">
+                    <p>5. Which temperature should trigger the heat break fans to activate automatically?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">40°C</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">50°C</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">60°C</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">70°C</div>
+                    </div>
+                </div>
+                <div class="quiz-question">
+                    <p>6. What should never be done when changing materials in the extruder?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Use purge compounds</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Transition directly from high-temperature to low-temperature materials</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Clean the nozzle</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Follow the manual instructions</div>
+                    </div>
+                </div>
+                <div class="quiz-question">
+                    <p>7. What is the ideal pellet size for use with the PE320 extruder?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">1-2mm diameter</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">2-3mm diameter</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">3-5mm diameter</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">5-8mm diameter</div>
+                    </div>
+                </div>
+                <div class="quiz-question">
+                    <p>8. What must be checked during pre-start inspection to prevent burst plug failure?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Allow proper temperature stabilization (30 minutes)</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Verify servo drive configuration</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Check the air plus module</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Inspect the hopper for pellets</div>
+                    </div>
+                </div>
+                <div class="quiz-question">
+                    <p>9. What should be used between material changes for effective cleaning?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Water</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Compressed air</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Purge compounds (such as Air Tech Dahlpram 009)</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Alcohol</div>
+                    </div>
+                </div>
+                <div class="quiz-question">
+                    <p>10. What type of bolts are used for securing the extruder to the motion system?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">M6 bolts</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">M8 bolts</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">M10 bolts</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">M12 bolts</div>
+                    </div>
+                </div>
+                <div class="quiz-question">
+                    <p>11. What component should be checked if the extruder is experiencing abnormal heating?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Solid state relays</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Servo drive</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Balluff capacitive proximity sensors</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Gearbox lubrication</div>
+                    </div>
+                </div>
+                <div class="quiz-question">
+                    <p>12. What is recommended to recalibrate if using Duet control with inconsistent material flow?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Gearbox ratio</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">E-steps</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">PT100 sensors</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Heat break fans</div>
+                    </div>
+                </div>
+                <button class="submit-btn" onclick="submitQuiz('troubleshooting')">Submit Answers</button>
+                <div class="feedback" id="troubleshooting-feedback"></div>
+                <button class="next-btn" id="troubleshooting-next" onclick="navigateToSection('certification')">Continue to Certification Section</button>
+            </div>
+        </div>
+        
+        <!-- Certification Section -->
+        <div class="section" id="certification">
+            <h2 class="section-title">Certification</h2>
+            
+            <div class="section-content">
+                <p>Congratulations on completing the Rapid Fusion PE320 Pellet Extruder training program! This final section will test your overall knowledge of the PE320 and, upon successful completion, provide you with a certificate of completion.</p>
+                
+                <div class="note">
+                    <strong>Certification Process:</strong> Complete the final assessment with a passing score of 80% or higher to receive your certificate.
+                </div>
+                
+                <h3>Certification Requirements</h3>
+                <p>To be certified as a Rapid Fusion PE320 Pellet Extruder operator, you must demonstrate competency in:</p>
+                <ol>
+                    <li><strong>Safety Procedures:</strong> Understanding all safety requirements and protocols</li>
+                    <li><strong>Operational Knowledge:</strong> Properly operating the extruder through all phases</li>
+                    <li><strong>Material Handling:</strong> Correctly managing different materials and their requirements</li>
+                    <li><strong>Maintenance Awareness:</strong> Identifying maintenance needs and performing operator-level maintenance</li>
+                    <li><strong>Troubleshooting Skills:</strong> Diagnosing common issues and implementing appropriate solutions</li>
+                </ol>
+            </div>
+            
+            <button class="quiz-btn" onclick="showQuiz('certification-quiz')">Take Final Assessment</button>
+            
+            <div class="quiz-container" id="certification-quiz">
+                <h3>Final Assessment</h3>
+                
+                <div class="quiz-question">
+                    <p>1. What is the correct procedure before starting extrusion with the PE320?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Heat to target temperature and immediately start extruding</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Load material first, then heat the extruder while extruding</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Heat to target temperature, maintain for 30 minutes, then start extruding</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Start motor at high speed then gradually increase temperature</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>2. What is the maximum material flow rate of the PE320 Pellet Extruder?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">10 kg/h</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">17 kg/h</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">22 kg/h</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">25 kg/h</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>3. What should you do if material begins leaking from the side of the extruder near the nozzle heater?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Continue operation but reduce the extrusion speed</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Immediately shut down and check the burst plug</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Increase heating to melt blockages</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Apply sealant to the leaking area</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>4. What should be done before clearing a clogged pellet intake?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Increase temperature to melt any blockages</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Turn off the compressor and disconnect material sensors</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Increase the pressure to force material through</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Run the motor at high speed to clear the blockage</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>5. How often should the gearbox be lubricated?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Weekly</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Monthly</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Quarterly</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Annually</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>6. What component acts as a safety feature to release pressure if excessive buildup occurs in the barrel?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">PT100 sensor</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Material hopper</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Cooling fan</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Burst plug (rupture disk)</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>7. What is the correct torque specification for tightening a new burst plug?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">15 Nm</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">20 Nm</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">25 Nm</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">30 Nm</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>8. When transitioning between materials of different melting temperatures, what critical step must be followed?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Purge with water</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Directly load the new material</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Use a purging compound when going from high to low temperature materials</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Shut down and restart the system between materials</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>9. What does it mean if the pellet feeding system repeatedly attempts to push material but fails?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">The motor needs to be replaced</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">The HEPA filter may be clogged</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">The temperature is set too high</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">The material is too large for the extruder</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>10. What is the first action to take when the motor-gearbox coupling needs inspection?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Ensure the extruder is at operating temperature</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Completely cool down the system</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Remove the barrel assembly</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Run the motor at maximum speed</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>11. What PPE is required when performing maintenance on the PE320 Pellet Extruder?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Only safety goggles</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Only heat resistant gloves</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Heat resistant gloves, safety goggles, and appropriate respirator</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">No PPE is required if the system is powered off</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>12. What is the weight of the PE320 Pellet Extruder?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">17 kg</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">22 kg</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">25 kg</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">30 kg</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>13. What is the maximum temperature capability of the PE320?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">350°C</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">400°C</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">450°C</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">500°C</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>14. Which of the following is NOT a recommended practice when changing materials?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Using a vacuum to remove remaining pellets</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Cleaning the hopper and feed throat</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Directly transitioning from high to low temperature materials</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Using a purge compound to clean the barrel</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>15. What type of sensors are used for temperature measurement in the PE320?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Thermocouples</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">PT100 sensors</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Infrared sensors</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Thermistors</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>16. What is the primary advantage of the PE320's power-to-weight ratio?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">It requires less electrical power</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">It can be mounted on small/medium sized robots and gantry systems</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">It operates more quietly than heavier extruders</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">It produces less heat during operation</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>17. How many heating zones does the PE320 have for precise temperature control?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">2</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">3</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">4</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">5</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>18. What document must users complete before operating the PE320 that addresses workplace-specific risks?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Equipment warranty registration</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Risk Assessment and Method Statement (RAMS)</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Material certification form</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Operator qualification certificate</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>19. What must be done before operating the PE320 with a new material?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Consult only the PE320 manual</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Check with the supplier about availability</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">Obtain and review the material's MSDS/SDS</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">Test small amounts at varying temperatures</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>20. What is the primary reason for the 30-minute temperature stabilization period?</p>
+                    <div class="quiz-options">
+                        <div class="option" data-correct="false" onclick="selectOption(this)">To save energy</div>
+                        <div class="option" data-correct="true" onclick="selectOption(this)">To prevent burst plug failure and equipment damage</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">To increase overall production speed</div>
+                        <div class="option" data-correct="false" onclick="selectOption(this)">To reduce noise during operation</div>
+                    </div>
+                </div>
+                
+                <button class="submit-btn" onclick="submitFinalQuiz()">Submit Final Assessment</button>
+                <div class="feedback" id="certification-feedback"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Certificate (Hidden until earned) -->
+    <div class="certificate" id="certificate">
+        <div class="certificate-content">
+            <h1 class="certificate-title">Certificate of Achievement</h1>
+            <h2 class="certificate-subtitle">Rapid Fusion PE320 Pellet Extruder Training</h2>
+            
+            <p class="certificate-text">This certifies that</p>
+            <div class="certificate-name" id="certificate-name">
+                <input type="text" id="user-name-input" placeholder="Enter your name" style="width: 100%; text-align: center; font-size: 20px; padding: 3px; border: none; border-bottom: 2px solid #a74e9e; background: transparent; outline: none;">
+            </div>
+            <p class="certificate-text">has successfully completed the training program for the</p>
+            <p class="certificate-text" style="font-weight: bold;">PE320 Pellet Extruder</p>
+            
+            <table class="certificate-results">
+                <tr>
+                    <th style="width: 35%">Section</th>
+                    <th style="width: 40%">Score</th>
+                    <th style="width: 25%">Result</th>
+                </tr>
+                <tr id="intro-result">
+                    <td>Introduction</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr id="safety-result">
+                    <td>Safety</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr id="operation-result">
+                    <td>Operation</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr id="maintenance-result">
+                    <td>Maintenance</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr id="troubleshooting-result">
+                    <td>Troubleshooting</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr id="certification-result">
+                    <td>Final Assessment</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+            </table>
+            
+            <div class="certificate-seal">
+                CERTIFIED
+            </div>
+            
+            <p class="certificate-date" id="certificate-date">April 28, 2025</p>
+            
+            <p class="certificate-signature">Rapid Fusion Training Academy</p>
+        </div>
+        
+        <button class="print-btn" id="print-certificate">Print Certificate (PDF)</button>
+    </div>
+
+    <script>
+        // Store quiz results for certificate
+        const quizResults = {
+            intro: { score: 0, total: 3, completed: false },
+            safety: { score: 0, total: 3, completed: false },
+            operation: { score: 0, total: 3, completed: false },
+            maintenance: { score: 0, total: 3, completed: false },
+            troubleshooting: { score: 0, total: 3, completed: false },
+            certification: { score: 0, total: 5, completed: false }
+        };
+        
+        // Progress tracking
+        const progress = {
+            intro: false,
+            safety: false,
+            operation: false,
+            maintenance: false,
+            troubleshooting: false,
+            certification: false
+        };
+        
+        // Function to show a quiz
+        function showQuiz(quizId) {
+            const quizContainer = document.getElementById(quizId);
+            const section = quizId.split('-')[0];
+            
+            // If section is already passed, show a message
+            if (progress[section]) {
+                const feedback = document.getElementById(`${section}-feedback`);
+                feedback.innerHTML = `<strong>You have already passed this section.</strong> You can retake the quiz if you wish to review the material.`;
+                feedback.className = 'feedback success';
+                feedback.style.display = 'block';
+            }
+            
+            quizContainer.style.display = 'block';
+            quizContainer.scrollIntoView({ behavior: 'smooth' });
+            // Hide the take quiz button
+            event.target.style.display = 'none';
+        }
+        
+        // Function to select an option
+        function selectOption(option) {
+            // Remove selected class from siblings
+            const parent = option.parentElement;
+            const options = parent.querySelectorAll('.option');
+            options.forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            option.classList.add('selected');
+        }
+        
+        // Function to submit a quiz
+        function submitQuiz(section) {
+            const quizContainer = document.getElementById(`${section}-quiz`);
+            const questions = quizContainer.querySelectorAll('.quiz-question');
+            const feedback = document.getElementById(`${section}-feedback`);
+            const nextBtn = document.getElementById(`${section}-next`);
+            
+            let score = 0;
+            let totalQuestions = questions.length;
+            
+            // Check answers
+            questions.forEach(question => {
+                const selectedOption = question.querySelector('.option.selected');
+                if (selectedOption) {
+                    if (selectedOption.getAttribute('data-correct') === 'true') {
+                        score++;
+                        selectedOption.classList.add('correct');
+                    } else {
+                        selectedOption.classList.add('incorrect');
+                        // Find and highlight the correct answer
+                        const correctOption = question.querySelector('.option[data-correct="true"]');
+                        correctOption.classList.add('correct');
+                    }
+                }
+            });
+            
+            // Calculate percentage
+            const percentage = Math.round((score / totalQuestions) * 100);
+            
+            // Store results for certificate
+            quizResults[section].score = score;
+            quizResults[section].completed = true;
+            
+            // Update results in certificate
+            updateCertificateResults(section, score, totalQuestions);
+            
+            // Display feedback
+            if (percentage >= 80) {
+                feedback.innerHTML = `<strong>Congratulations!</strong> You scored ${score}/${totalQuestions} (${percentage}%). You have passed this section.`;
+                feedback.className = 'feedback success';
+                progress[section] = true;
+                
+                // Show next button only if passed
+                if (nextBtn) {
+                    nextBtn.style.display = 'block';
+                }
+            } else {
+                feedback.innerHTML = `<strong>You scored ${score}/${totalQuestions} (${percentage}%).</strong> You need to score at least 80% to pass this section.`;
+                feedback.className = 'feedback error';
+                progress[section] = false;
+                
+                // Hide next button if failed
+                if (nextBtn) {
+                    nextBtn.style.display = 'none';
+                }
+                
+                // Add retake button
+                const retakeBtn = document.createElement('button');
+                retakeBtn.className = 'retake-btn';
+                retakeBtn.textContent = 'Retake Quiz';
+                retakeBtn.onclick = function() {
+                    resetQuiz(section);
+                };
+                feedback.appendChild(retakeBtn);
+            }
+            
+            feedback.style.display = 'block';
+            
+            // Disable options and submit button
+            quizContainer.querySelectorAll('.option').forEach(option => {
+                option.style.pointerEvents = 'none';
+            });
+            
+            quizContainer.querySelector('.submit-btn').disabled = true;
+        }
+
+        // Function to reset a quiz
+        function resetQuiz(section) {
+            const quizContainer = document.getElementById(`${section}-quiz`);
+            const feedback = document.getElementById(`${section}-feedback`);
+            const submitBtn = quizContainer.querySelector('.submit-btn');
+            
+            // Reset all options
+            quizContainer.querySelectorAll('.option').forEach(option => {
+                option.classList.remove('selected', 'correct', 'incorrect');
+                option.style.pointerEvents = 'auto';
+            });
+            
+            // Reset submit button
+            submitBtn.disabled = false;
+            
+            // Clear feedback
+            feedback.innerHTML = '';
+            feedback.style.display = 'none';
+            
+            // Remove retake button if it exists
+            const retakeBtn = feedback.querySelector('.retake-btn');
+            if (retakeBtn) {
+                retakeBtn.remove();
+            }
+        }
+        
+        // Function to submit final quiz and generate certificate
+        function submitFinalQuiz() {
+            // First run normal quiz submission
+            submitQuiz('certification');
+            
+            // Check if all sections are completed with passing scores
+            let allPassed = true;
+            for (const section in progress) {
+                if (!progress[section]) {
+                    allPassed = false;
+                    break;
+                }
+            }
+            
+            // If all sections passed, show certificate
+            if (allPassed) {
+                showCertificate();
+            } else {
+                const feedback = document.getElementById('certification-feedback');
+                feedback.innerHTML += `<br><br><strong>Certificate Requirements Not Met:</strong> You need to pass all sections to receive your certificate. Please review and retake the sections you haven't passed yet.`;
+                feedback.className = 'feedback error';
+                
+                // Show which sections need to be retaken
+                const failedSections = [];
+                for (const section in progress) {
+                    if (!progress[section]) {
+                        failedSections.push(section.charAt(0).toUpperCase() + section.slice(1));
+                    }
+                }
+                
+                if (failedSections.length > 0) {
+                    feedback.innerHTML += `<br><br><strong>Sections to Retake:</strong> ${failedSections.join(', ')}`;
+                }
+            }
+        }
+        
+        // Function to navigate to a section
+        function navigateToSection(sectionId) {
+            const sections = ['intro', 'safety', 'operation', 'maintenance', 'troubleshooting', 'certification'];
+            const currentIndex = sections.indexOf(sectionId);
+            
+            // Check if trying to move to a section that requires previous sections to be completed
+            if (currentIndex > 0) {
+                // Check all previous sections
+                for (let i = 0; i < currentIndex; i++) {
+                    if (!progress[sections[i]]) {
+                        alert('You must pass all previous sections before proceeding.');
+                        return;
+                    }
+                }
+            }
+            
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show the selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update navigation buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-section') === sectionId) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Reset quiz display for the section
+            const quizContainer = document.getElementById(`${sectionId}-quiz`);
+            if (quizContainer) {
+                quizContainer.style.display = 'none';
+                // Show the quiz button if it was hidden
+                const quizBtn = quizContainer.previousElementSibling;
+                if (quizBtn && quizBtn.classList.contains('quiz-btn')) {
+                    quizBtn.style.display = 'block';
+                }
+            }
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        // Function to update progress and unlock sections
+        function updateProgress() {
+            const sections = ['intro', 'safety', 'operation', 'maintenance', 'troubleshooting', 'certification'];
+            let lastCompletedIndex = -1;
+            // Find the last completed section
+            for (let i = 0; i < sections.length; i++) {
+                if (progress[sections[i]]) {
+                    lastCompletedIndex = i;
+                }
+            }
+            // Update navigation buttons
+            sections.forEach((section, index) => {
+                const btn = document.querySelector(`.nav-btn[data-section="${section}"]`);
+                // Mark completed
+                if (progress[section]) {
+                    btn.textContent = btn.textContent.replace('✓ ', '');
+                    btn.textContent = `✓ ${btn.textContent}`;
+                    btn.style.backgroundColor = '#4caf50';
+                } else {
+                    btn.textContent = btn.textContent.replace('✓ ', '');
+                    btn.style.backgroundColor = '#444';
+                }
+                // Unlock all up to and including last completed, and the next one
+                if (index <= lastCompletedIndex + 1) {
+                    btn.classList.remove('locked');
+                } else {
+                    btn.classList.add('locked');
+                }
+            });
+        }
+        
+        // Function to update certificate results
+        function updateCertificateResults(section, score, total) {
+            const percentage = Math.round((score / total) * 100);
+            const resultRow = document.getElementById(`${section}-result`);
+            
+            if (resultRow) {
+                const cells = resultRow.querySelectorAll('td');
+                cells[1].textContent = `${score}/${total} (${percentage}%)`;
+                
+                if (percentage >= 80) {
+                    cells[2].textContent = 'PASS';
+                    cells[2].className = 'result-grade pass';
+                } else {
+                    cells[2].textContent = 'FAIL';
+                    cells[2].className = 'result-grade fail';
+                }
+            }
+        }
+        
+        // Function to show certificate
+        function showCertificate() {
+            const certificate = document.getElementById('certificate');
+            certificate.style.display = 'block';
+            
+            // Set certificate date
+            const today = new Date();
+            const formattedDate = today.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            document.getElementById('certificate-date').textContent = formattedDate;
+            
+            // Scroll to certificate
+            certificate.scrollIntoView({ behavior: 'smooth' });
+            
+            // Setup print button
+            document.getElementById('print-certificate').addEventListener('click', function() {
+                // Get the user's name
+                const nameInput = document.getElementById('user-name-input');
+                const nameText = nameInput.value || 'Trainee';
+                
+                // Replace input with text for printing
+                const nameContainer = document.getElementById('certificate-name');
+                nameContainer.innerHTML = nameText;
+                
+                // Print with timeout to ensure rendering
+                setTimeout(() => {
+                    window.print();
+                    
+                    // Restore input after printing
+                    setTimeout(() => {
+                        nameContainer.innerHTML = '';
+                        nameContainer.appendChild(nameInput);
+                    }, 1000);
+                }, 200);
+            });
+        }
+        
+        // Initialize navigation buttons
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (!this.classList.contains('locked')) {
+                    const sectionId = this.getAttribute('data-section');
+                    navigateToSection(sectionId);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
